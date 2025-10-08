@@ -11,7 +11,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     [SerializeField] private Rigidbody2D pb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private Transform Camera;
+    [SerializeField] private Transform cameraTransform;
 
     void Start()
     {
@@ -26,6 +26,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             pb.linearVelocity = new Vector2(pb.linearVelocity.x, jumpVel);
         }
+
+
     }
 
     private bool IsGrounded()
@@ -39,9 +41,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
         Vector2 targetVelocity = new Vector2(movement.x * playerSpeed, pb.linearVelocity.y);
         pb.linearVelocity = Vector2.Lerp(pb.linearVelocity, targetVelocity, 0.3f);
 
-        if (Camera != null)
-        {
-            Camera.position = pb.position;
-        }
+        cameraTransform.position = Vector3.Lerp(
+            cameraTransform.position,
+            new Vector3(pb.position.x + cameraOffset.x, pb.position.y + cameraOffset.y, cameraTransform.position.z),
+            0.6f
+        );
+
     }
 }
