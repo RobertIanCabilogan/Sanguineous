@@ -376,12 +376,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610279325}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.9968495, y: 1.4904826, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2129887432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1610279329
 MonoBehaviour:
@@ -427,6 +427,11 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!4 &2129887432 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1987388908159858699, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
+  m_PrefabInstance: {fileID: 2143362724}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2143362724
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -440,6 +445,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1166080957}
     - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
+      propertyPath: Speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
+      propertyPath: Health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
       propertyPath: camera
       value: 
       objectReference: {fileID: 1610279328}
@@ -448,9 +461,21 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
+      propertyPath: dashTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
+      propertyPath: dashSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 2143362725}
+    - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
+      propertyPath: playerSpeed
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 1011476352431264228, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -513,7 +538,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1987388908159858699, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1610279328}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8f3395d27bf3cc48a7fb784d9bcbe82, type: 3}
 --- !u!4 &2143362725 stripped
@@ -525,6 +553,5 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1610279328}
   - {fileID: 1047115952}
   - {fileID: 2143362724}
