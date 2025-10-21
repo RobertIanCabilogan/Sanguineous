@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5121881745785107704}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.2, y: 2.25, z: 0}
+  m_LocalPosition: {x: -1.59, y: -0.22411454, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -106,8 +106,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 4
-  m_Material: {fileID: 0}
+  m_GravityScale: 4.5
+  m_Material: {fileID: 6200000, guid: ef65790aa511f0343bcb9d2559c2846a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -131,12 +131,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpVel: 25
-  playerSpeed: 10
-  pb: {fileID: 0}
-  groundCheck: {fileID: 0}
+  Health: 100
+  Speed: 10
+  pb: {fileID: 5147034485605294942}
+  groundCheck: {fileID: 6065816056969826096}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
+  dashSpeed: 30
+  dashTime: 0.2
 --- !u!70 &368817874955330697
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

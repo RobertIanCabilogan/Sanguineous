@@ -11,6 +11,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public float Speed = 0;
     private PlayerClass player;
     [SerializeField] private Rigidbody2D pb;
+    [SerializeField] private CapsuleCollider2D playerHitbox;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 

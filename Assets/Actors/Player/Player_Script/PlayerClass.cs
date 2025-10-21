@@ -13,6 +13,12 @@ public class PlayerClass
         this.speed = speed;
     }
 
+    public PlayerClass(float speed)
+    {
+        this.speed = speed;
+        maxHealth = 100;
+        health = maxHealth;
+    }
     public float getHealth()
     {
         return health;
