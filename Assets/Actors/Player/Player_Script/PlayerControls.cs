@@ -11,7 +11,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public float Speed = 0;
     private PlayerClass player;
     [SerializeField] private Rigidbody2D pb;
-    [SerializeField] private CapsuleCollider2D playerHitbox;
+    [SerializeField] private BoxCollider2D  playerHitbox;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 
@@ -21,7 +21,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private bool isDashing = false;
     private float dashTimer;
     private float dashDirection;
-    //[SerializeField] private Transform cameraTransform;
 
     void Start()
     {
@@ -35,22 +34,21 @@ public class NewMonoBehaviourScript : MonoBehaviour
         if (!player.isDead())
         {
             movement.x = Input.GetAxisRaw("Horizontal");
-        }
-        
+            if (Input.GetButtonDown("Jump") && IsGrounded())
+            {
+                pb.linearVelocity = new Vector2(pb.linearVelocity.x, jumpVel);
+            }
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {
-            pb.linearVelocity = new Vector2(pb.linearVelocity.x, jumpVel);
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
+            {
+                dashDirection = movement.x != 0 ? Mathf.Sign(movement.x) : 1f;
+
+                isDashing = true;
+                dashTimer = dashTime;
+                Debug.Log("Dashed");
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
-        {
-            dashDirection = movement.x != 0 ? Mathf.Sign(movement.x) : 1f;
-
-            isDashing = true;
-            dashTimer = dashTime;
-            Debug.Log("Dashed");
-        }
     }
 
     private bool IsGrounded()
@@ -60,7 +58,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        if (player.isDead())
+        {
+            pb.linearVelocity = Vector2.zero;
+            return;
+        }
         if (isDashing)
         {
             Vector2 targetVelocity = new Vector2(dashDirection * dashSpeed, pb.linearVelocity.y);
@@ -77,13 +79,15 @@ public class NewMonoBehaviourScript : MonoBehaviour
             Vector2 targetVelocity = new Vector2(movement.x * player.getSpeed(), pb.linearVelocity.y);
             pb.linearVelocity = Vector2.Lerp(pb.linearVelocity, targetVelocity, 0.3f);
         }
-        
 
-        //cameraTransform.position = Vector3.Lerp(
-        //    cameraTransform.position,
-        //    new Vector3(pb.position.x + cameraOffset.x, pb.position.y + cameraOffset.y, cameraTransform.position.z),
-        //    0.6f
-        //);
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Enemy Hit for 10");
+            player.takeDamage(10);
+        }
     }
 }
