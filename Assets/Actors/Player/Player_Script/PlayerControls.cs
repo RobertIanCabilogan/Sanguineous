@@ -9,12 +9,18 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public float jumpVel = 10f;
     public float Health = 0;
     public float Speed = 0;
+    public GameObject attackPoint;
+    public float radius;
+    public LayerMask Enemies;
+    public int damage;
     private PlayerClass player;
+    private Animator animator;
+    private bool facingRight;
+    private bool attacked = false;
     [SerializeField] private Rigidbody2D pb;
-    [SerializeField] private BoxCollider2D  playerHitbox;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-
+    
     //this is the dash
     public float dashSpeed = 15f;
     public float dashTime = 0.2f;
@@ -25,15 +31,34 @@ public class NewMonoBehaviourScript : MonoBehaviour
     void Start()
     {
         pb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         player = new PlayerClass(Health, Speed);
     }
 
     void Update()
     {
 
+        player.takeDamage(0.01f);
         if (!player.isDead())
         {
             movement.x = Input.GetAxisRaw("Horizontal");
+            if (movement.x != 0)
+            {
+                animator.SetBool("IsWalking", true);
+                if (movement.x > 0 && facingRight)
+                {
+                    Flip();
+                }
+                else if (movement.x < 0 && !facingRight) 
+                {
+                    Flip();
+                }
+            }
+            else
+            {
+                animator.SetBool("IsWalking", false);
+            }
+
             if (Input.GetButtonDown("Jump") && IsGrounded())
             {
                 pb.linearVelocity = new Vector2(pb.linearVelocity.x, jumpVel);
@@ -45,10 +70,40 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
                 isDashing = true;
                 dashTimer = dashTime;
+                player.takeDamage(5);
                 Debug.Log("Dashed");
             }
-        }
 
+            if (Input.GetMouseButtonDown(0) && !attacked)
+            {
+                animator.SetBool("IsAttacking", true);
+                attacked = true;
+            }
+        }
+        
+
+
+    }
+
+    public void attack()
+    {
+        Collider2D[] enemy = Physics2D.OverlapCircleAll(attackPoint.transform.position, radius, Enemies);
+
+        foreach (Collider2D enemyGameObject in enemy)
+        {
+            Debug.Log("Hit!");
+            enemyGameObject.GetComponent<EnemyScript>().meleeEnemy.takeDamage(damage);
+            if (player.getHealth() < player.getMaxHealth())
+            {
+                player.Heal(damage);
+            }
+        }
+    }
+
+    public void endAttack()
+    {
+        animator.SetBool("IsAttacking", false);
+        attacked = false;
     }
 
     private bool IsGrounded()
@@ -82,12 +137,16 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnDrawGizmos()
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("Enemy Hit for 10");
-            player.takeDamage(10);
-        }
+        Gizmos.DrawWireSphere(attackPoint.transform.position, radius);
+    }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }

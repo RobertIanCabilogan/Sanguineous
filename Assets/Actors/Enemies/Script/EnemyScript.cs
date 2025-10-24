@@ -14,6 +14,9 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (meleeEnemy.isDead())
+        {
+            Debug.Log("I'm dead lol");
+        }
     }
 }
