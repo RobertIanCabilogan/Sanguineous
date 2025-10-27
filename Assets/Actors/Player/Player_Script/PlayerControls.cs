@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class PlayerControls : MonoBehaviour
 {
     private Vector2 movement;
     private Vector2 currentVelocity = Vector2.zero;
@@ -13,10 +13,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public float radius;
     public LayerMask Enemies;
     public int damage;
-    private PlayerClass player;
+    public PlayerClass player;
     private Animator animator;
     private bool facingRight;
     private bool attacked = false;
+    private float timer = 2.5f;
     [SerializeField] private Rigidbody2D pb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -37,8 +38,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     void Update()
     {
-
-        player.takeDamage(0.01f);
         if (!player.isDead())
         {
             movement.x = Input.GetAxisRaw("Horizontal");
@@ -78,6 +77,16 @@ public class NewMonoBehaviourScript : MonoBehaviour
             {
                 animator.SetBool("IsAttacking", true);
                 attacked = true;
+                timer = 0.2f;
+            }
+
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                attacked = false;
             }
         }
         
@@ -91,7 +100,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         foreach (Collider2D enemyGameObject in enemy)
         {
-            Debug.Log("Hit!");
             enemyGameObject.GetComponent<EnemyScript>().meleeEnemy.takeDamage(damage);
             if (player.getHealth() < player.getMaxHealth())
             {
@@ -103,7 +111,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public void endAttack()
     {
         animator.SetBool("IsAttacking", false);
-        attacked = false;
     }
 
     private bool IsGrounded()
